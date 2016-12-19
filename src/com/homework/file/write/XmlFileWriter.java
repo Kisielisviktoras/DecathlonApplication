@@ -17,7 +17,9 @@ public class XmlFileWriter implements FileWriter {
     public File writeResult(List<Ranking> rankings, String outputPath) {
         File outputFile = new File(outputPath);
         try {
-            outputFile.getParentFile().mkdirs();
+            if (outputFile.getParentFile() != null) {
+                outputFile.getParentFile().mkdirs();
+            }
             RankingListWrapper wrapper = new RankingListWrapper(rankings);
             File file = new File(outputPath);
             JAXBContext jaxbContext = JAXBContext.newInstance(RankingListWrapper.class, Ranking.class);
