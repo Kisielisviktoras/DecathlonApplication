@@ -14,16 +14,20 @@ import java.util.List;
 public class DecathlonApplication {
 
     public static void main(String[] args) throws UnsupportedFileType {
-        FileService fileService = new FileService();
-        String inputFilePath = args[0];
-        String outputFilePath = args[1];
+        if (args.length >= 2) {
+            FileService fileService = new FileService();
+            String inputFilePath = args[0];
+            String outputFilePath = args[1];
 
-        List<DecathlonParticipant> participants = fileService.readResultSheet(inputFilePath);
-        DecathlonRankingService decathlonRankingService = new DecathlonRankingService();
-        participants.stream().forEach(participant -> participant.setTotalScore(decathlonRankingService.calculateParticipantScore(participant)));
-        List<Ranking> rankings = decathlonRankingService.rankParticipants(participants);
+            List<DecathlonParticipant> participants = fileService.readResultSheet(inputFilePath);
+            DecathlonRankingService decathlonRankingService = new DecathlonRankingService();
+            participants.stream().forEach(participant -> participant.setTotalScore(decathlonRankingService.calculateParticipantScore(participant)));
+            List<Ranking> rankings = decathlonRankingService.rankParticipants(participants);
 
-        fileService.writeResultSheet(outputFilePath, rankings);
+            fileService.writeResultSheet(outputFilePath, rankings);
+        } else {
+            System.out.println("Incorrect number of input parameters provided");
+        }
     }
 
 
